@@ -44,7 +44,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     var ice = ["・冰","・溫","・熱"]
     var iceIndex: Int?
-    var iceDetails = ["(完全去冰) ","(去冰) ","(微冰) ","(少冰) ","(正常冰) "]
+    var iceDetails = ["(完全去冰)","(去冰)","(微冰)","(少冰)","(正常冰)"]
     var iDIndex: Int?
 
     var sugarValue = 0.25
@@ -95,8 +95,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
         iceValue = 0.5
         sugarValue = 0.25
         confirmedContent = ""
-        memoTextField.text = ""
-        selectedItemTextField.text = ""
+        memoTextField.placeholder = "備註：加料、是否要吸管"
+        selectedItemTextField.placeholder = "可手動修改訂單內容"
         contentLabel.text = ""
         num = 1
         
@@ -148,6 +148,29 @@ class ViewController: UIViewController, UITextFieldDelegate {
         updateSugarViewSize()
     }
     
+    func setIndex(){
+        var content = ""
+        if sizeIndex != nil{
+            content = content + size[sizeIndex!]
+        }
+        if sugarIndex != nil{
+            content += sugar[sugarIndex!]
+        }
+        if sDIndex != nil{
+            if sugarSegmentedControl.selectedSegmentIndex != 0{
+            content = content + sugarDetails[sDIndex!]
+            }
+        }
+        if iceIndex != nil{
+            content = content + ice[iceIndex!]
+        }
+        if iDIndex != nil{
+            if iceSegmentedControl.selectedSegmentIndex == 0{
+            content = content + iceDetails[iDIndex!]
+            }
+        }
+        selectedItemTextField.text = content
+    }
     
     
     /*
@@ -179,126 +202,26 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 }
             }
             selectedItemTextField.text = content
-            
         }else if sugarSlider.value == 0.25{
             setSugarSliderDetails(text: " 微糖 ", minTrackTintColor: sugarFourthColor, thumbTintColor: sugarFourthColor)
-            var content = ""
-            if sizeIndex != nil{
-                content = content + size[sizeIndex!]
-                print("sugarS0.25-size",content)
-            }
             sugarIndex = 1
-            if sugarIndex != nil{
-                content += sugar[sugarIndex!]
-                print("sugarS0-sugar",content)
-            }
             sDIndex = 1
-            if sDIndex != nil{
-                content = content + sugarDetails[sDIndex!]
-                print("sugarS0.25-sugarD",content)
-            }
-            if iceIndex != nil{
-                content = content + ice[iceIndex!]
-                print("sugarS0.25-ice",content)
-            }
-
-            if iDIndex != nil{
-                if iceSegmentedControl.selectedSegmentIndex == 0{
-                content = content + iceDetails[iDIndex!]
-                print("sugarS0.25-iceD",content)
-                }
-            }
-            selectedItemTextField.text = content
-         
+            setIndex()
         }else if sugarSlider.value == 0.5{
             setSugarSliderDetails(text: " 半糖 ", minTrackTintColor: sugarPrimaryColor, thumbTintColor: sugarPrimaryColor)
-            var content = ""
-            if sizeIndex != nil{
-                content = content + size[sizeIndex!]
-                print("sugarS0-size",content)
-            }
             sugarIndex = 1
-            if sugarIndex != nil{
-                content += sugar[sugarIndex!]
-                print("sugarS0-sugar",content)
-            }
             sDIndex = 2
-            if sDIndex != nil{
-                content = content + sugarDetails[sDIndex!]
-                print("sugarS0.5-sugarD",content)
-            }
-            if iceIndex != nil{
-                content = content + ice[iceIndex!]
-                print("sugarS0-ice",content)
-            }
-
-            if iDIndex != nil{
-                if iceSegmentedControl.selectedSegmentIndex == 0{
-                content = content + iceDetails[iDIndex!]
-                print("sugarS0.5-iceD",content)
-                }
-            }
-            selectedItemTextField.text = content
-            
+            setIndex()
         }else if sugarSlider.value == 0.75{
             setSugarSliderDetails(text: " 少糖 ", minTrackTintColor: sugarSecondaryColor, thumbTintColor: sugarSecondaryColor)
-            var content = ""
-            if sizeIndex != nil{
-                content = content + size[sizeIndex!]
-                print("sugarS0-size",content)
-            }
             sugarIndex = 1
-            if sugarIndex != nil{
-                content += sugar[sugarIndex!]
-                print("sugarS0-sugar",content)
-            }
             sDIndex = 3
-            if sDIndex != nil{
-                content = content + sugarDetails[sDIndex!]
-                print("sugarS0.75-sugarD",content)
-            }
-            if iceIndex != nil{
-                content = content + ice[iceIndex!]
-                print("sugarS0.75-ice",content)
-            }
-
-            if iDIndex != nil{
-                if iceSegmentedControl.selectedSegmentIndex == 0{
-                content = content + iceDetails[iDIndex!]
-                print("sugarS0.75-iceD",content)
-                }
-            }
-            selectedItemTextField.text = content
-            
+            setIndex()
         }else {
             setSugarSliderDetails(text: " 全糖 ", minTrackTintColor: sugarTertiaryColor, thumbTintColor: sugarTertiaryColor)
-            var content = ""
-            if sizeIndex != nil{
-                content = content + size[sizeIndex!]
-                print("sugarS0-size",content)
-            }
             sugarIndex = 1
-            if sugarIndex != nil{
-                content += sugar[sugarIndex!]
-                print("sugarS0-sugar",content)
-            }
             sDIndex = 4
-            if sDIndex != nil{
-                content = content + sugarDetails[sDIndex!]
-                print("sugarS1-sugarD",content)
-            }
-            if iceIndex != nil{
-                content = content + ice[iceIndex!]
-                print("sugarS1-ice",content)
-            }
- 
-            if iDIndex != nil{
-                if iceSegmentedControl.selectedSegmentIndex == 0{
-                content = content + iceDetails[iDIndex!]
-                print("sugarS0-iceD",content)
-                }
-            }
-            selectedItemTextField.text = content
+            setIndex()
 
         }
         
@@ -311,140 +234,24 @@ class ViewController: UIViewController, UITextFieldDelegate {
             iceLabel.text = " 完全去冰 "
             iceSlider.thumbTintColor = iceFifthColor
             updateIceViewSize()
-            var content = ""
-            if sizeIndex != nil{
-                content = content + size[sizeIndex!]
-                print("iceS0-size",content)
-            }
-            if sugarIndex != nil{
-                content += sugar[sugarIndex!]
-                print("iceS0-sugar",content)
-            }
-            if sDIndex != nil{
-                content = content + sugarDetails[sDIndex!]
-                print("iceS0-sugarD",content)
-            }
-            if iceIndex != nil{
-                content = content + ice[iceIndex!]
-                print("iceS0-ice",content)
-            }
             iDIndex = 0
-            if iDIndex != nil{
-                if iceSegmentedControl.selectedSegmentIndex == 0{
-                content = content + iceDetails[iDIndex!]
-                print("iceS0-iceD",content)
-                }
-            }
-            selectedItemTextField.text = content
+            setIndex()
         }else if iceSlider.value == 0.2{
             setIceSliderDetails(text: " 去冰 ", minTrackTintColor: iceFourthColor, thumbTintColor: iceFourthColor)
-            var content = ""
-            if sizeIndex != nil{
-                content = content + size[sizeIndex!]
-                print("iceS0.2-size",content)
-            }
-            if sugarIndex != nil{
-                content += sugar[sugarIndex!]
-                print("iceS0.2-sugar",content)
-            }
-            if sDIndex != nil{
-                content = content + sugarDetails[sDIndex!]
-                print("iceS0.2-sugarD",content)
-            }
-            if iceIndex != nil{
-                content = content + ice[iceIndex!]
-                print("iceS0.2-ice",content)
-            }
             iDIndex = 1
-            if iDIndex != nil{
-                if iceSegmentedControl.selectedSegmentIndex == 0{
-                content = content + iceDetails[iDIndex!]
-                print("iceS0.2-iceD",content)
-                }
-            }
-            selectedItemTextField.text = content
+            setIndex()
         }else if iceSlider.value == 0.5{
             setIceSliderDetails(text: " 微冰 ", minTrackTintColor: icePrimaryColor, thumbTintColor: icePrimaryColor)
-            var content = ""
-            if sizeIndex != nil{
-                content = content + size[sizeIndex!]
-                print("iceS0.5-size",content)
-            }
-            if sugarIndex != nil{
-                content += sugar[sugarIndex!]
-                print("iceS0.5-sugar",content)
-            }
-            if sDIndex != nil{
-                content = content + sugarDetails[sDIndex!]
-                print("iceS0.5-sugarD",content)
-            }
-            if iceIndex != nil{
-                content = content + ice[iceIndex!]
-                print("iceS0.5-ice",content)
-            }
             iDIndex = 2
-            if iDIndex != nil{
-                if iceSegmentedControl.selectedSegmentIndex == 0{
-                content = content + iceDetails[iDIndex!]
-                print("iceS0.5-iceD",content)
-                }
-            }
-            selectedItemTextField.text = content
+            setIndex()
         }else if iceSlider.value == 0.8{
             setIceSliderDetails(text: " 少冰 ", minTrackTintColor: iceSecondaryColor, thumbTintColor: iceSecondaryColor)
-            var content = ""
-            if sizeIndex != nil{
-                content = content + size[sizeIndex!]
-                print("iceS0.8-size",content)
-            }
-            if sugarIndex != nil{
-                content += sugar[sugarIndex!]
-                print("iceS0.8-sugar",content)
-            }
-            if sDIndex != nil{
-                content = content + sugarDetails[sDIndex!]
-                print("iceS0.8-sugarD",content)
-            }
-            if iceIndex != nil{
-                content = content + ice[iceIndex!]
-                print("iceS0.8-ice",content)
-            }
             iDIndex = 3
-            if iDIndex != nil{
-                if iceSegmentedControl.selectedSegmentIndex == 0{
-                content = content + iceDetails[iDIndex!]
-                print("iceS0.8-iceD",content)
-                }
-            }
-            selectedItemTextField.text = content
+            setIndex()
         }else {
             setIceSliderDetails(text: " 正常冰 ", minTrackTintColor: iceTertiaryColor, thumbTintColor: iceTertiaryColor)
-            var content = ""
-            if sizeIndex != nil{
-                content = content + size[sizeIndex!]
-                print("iceS1-size",content)
-            }
-            if sugarIndex != nil{
-                content += sugar[sugarIndex!]
-                print("iceS1-sugar",content)
-            }
-            if sDIndex != nil{
-                content = content + sugarDetails[sDIndex!]
-                print("iceS1-sugarD",content)
-            }
-            if iceIndex != nil{
-                content = content + ice[iceIndex!]
-                print("iceS1-ice",content)
-            }
             iDIndex = 4
-            if iDIndex != nil{
-                if iceSegmentedControl.selectedSegmentIndex == 0{
-                content = content + iceDetails[iDIndex!]
-                print("iceS1-iceD",content)
-                }
-            }
-            selectedItemTextField.text = content
-          
+            setIndex()
         }
     }
     
@@ -456,86 +263,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
      */
     @IBAction func sizeSegmentSelected(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0{
-            var content = ""
             sizeIndex = 0
-            if sizeIndex != nil{
-                content = content + size[sizeIndex!]
-                print("size0-size",content)
-            }
-            if sugarIndex != nil{
-                content += sugar[sugarIndex!]
-                print("size0-sugar",content)
-            }
-            if sDIndex != nil{
-                content += sugarDetails[sDIndex!]
-                print("size0-sugarD",content)
-            }
-            
-            if iceIndex != nil{
-                content = content + ice[iceIndex!]
-                print("size0-iceD",content)
-                
-            }
-            if iDIndex != nil{
-                if iceSegmentedControl.selectedSegmentIndex == 0{
-                content = content + iceDetails[iDIndex!]
-                print("size0-iceD",content)
-                }
-            }
-            selectedItemTextField.text = content
+            setIndex()
         }else if sender.selectedSegmentIndex == 1{
-            var content = ""
             sizeIndex = 1
-            if sizeIndex != nil{
-                content = content + size[sizeIndex!]
-                print("size1-size",content)
-            }
-            if sugarIndex != nil{
-                content += sugar[sugarIndex!]
-                print("size1-sugar",content)
-            }
-            if sDIndex != nil{
-                content += sugarDetails[sDIndex!]
-                print("size1-sugarD",content)
-            }
-            if iceIndex != nil{
-                content = content + ice[iceIndex!]
-                print("size1-ice",content)
-            }
-            if iDIndex != nil{
-                if iceSegmentedControl.selectedSegmentIndex == 0{
-                content = content + iceDetails[iDIndex!]
-                print("size1-iceD",content)
-                }
-            }
-            selectedItemTextField.text = content
+            setIndex()
         }else if sender.selectedSegmentIndex == 2{
-            var content = ""
             sizeIndex = 2
-            if sizeIndex != nil{
-                content = content + size[sizeIndex!]
-                print("size2-size",content)
-            }
-            if sugarIndex != nil{
-                content += sugar[sugarIndex!]
-                print("size2-sugar",content)
-            }
-            if sDIndex != nil{
-                content += sugarDetails[sDIndex!]
-                print("size2-sugarD",content)
-            }
-            if iceIndex != nil{
-                
-                content = content + ice[iceIndex!]
-                print("size2-iceD",content)
-            }
-            if iDIndex != nil{
-             if iceSegmentedControl.selectedSegmentIndex == 0{
-                content = content + iceDetails[iDIndex!]
-                print("size2-iceD",content)
-            }
-            }
-            selectedItemTextField.text = content
+            setIndex()
         }
     }
     
@@ -545,63 +280,16 @@ class ViewController: UIViewController, UITextFieldDelegate {
             sugarValue = 0
             sugarSlider.value = Float(sugarValue)
             sugarLabelchange()
-            var content = ""
-            if sizeIndex != nil{
-                content = content + size[sizeIndex!]
-                print("sugar0-size",content)
-            }
             sugarIndex = 0
-            if sugarIndex != nil{
-                content += sugar[sugarIndex!]
-                print("sugar0-sugar",content)
-            }
             sDIndex = 0
-            if sDIndex != nil{
-                content += sugarDetails[sDIndex!]
-                print("sugar0-sugarD",content)
-            }
-            if iceIndex != nil{
-                content = content + ice[iceIndex!]
-                print("sugar0-ice",content)
-            }
-            if iDIndex != nil{
-                if iceSegmentedControl.selectedSegmentIndex == 0{
-                content = content + iceDetails[iDIndex!]
-                print("sugar0-iceD",content)
-                }
-            }
-            selectedItemTextField.text = content
+            setIndex()
         }else if sender.selectedSegmentIndex == 1{
             sugarHidden(change: false)
             sugarValue = 0.25
             sugarSlider.value = Float(sugarValue)
             sugarLabelchange()
-            var content = ""
-            if sizeIndex != nil{
-                content = content + size[sizeIndex!]
-                print("sugar1-size",content)
-            }
             sugarIndex = 1
-            if sugarIndex != nil{
-                content += sugar[sugarIndex!]
-                print("sugar1-sugar",content)
-            }
-            if sDIndex != nil{
-                content += sugarDetails[sDIndex!]
-                print("sugar1-sugarD",content)
-            }
-            if iceIndex != nil{
-                
-                content = content + ice[iceIndex!]
-                print("sugar1-ice",content)
-            }
-            if iDIndex != nil{
-                if iceSegmentedControl.selectedSegmentIndex == 0{
-                content = content + iceDetails[iDIndex!]
-                print("sugar1-iceD",content)
-                }
-            }
-            selectedItemTextField.text = content
+            setIndex()
             }
         }
     
@@ -611,33 +299,15 @@ class ViewController: UIViewController, UITextFieldDelegate {
         if sender.selectedSegmentIndex == 0{
             iceHidden(change: false)
             iceValue = 0.5
-            var content = ""
-            if sizeIndex != nil{
-                content = content + size[sizeIndex!]
-                print("ice0-size",content)
-            }
-            if sugarIndex != nil{
-                content += sugar[sugarIndex!]
-                print("ice0-sugar",content)
-            }
-            if sDIndex != nil{
-                content += sugarDetails[sDIndex!]
-                print("ice0-sugarD",content)
-            }
+            iceSlider.value = Float(iceValue)
+            iceLabelChange()
             iceIndex = 0
-            if iceIndex != nil{
-                content = content + ice[iceIndex!]
-                print("ice0-ice",content)
-            }
             iDIndex = 2
-            if iDIndex != nil{
-                content = content + iceDetails[iDIndex!]
-                print("ice0-iceD",content)
-            }
-            selectedItemTextField.text = content
-            
+            setIndex()
         }else if sender.selectedSegmentIndex == 1{
             iceHidden(change: true)
+            iceSlider.value = Float(iceValue)
+            iceLabelChange()
             var content = ""
             if sizeIndex != nil{
                 content = content + size[sizeIndex!]
@@ -659,6 +329,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
             selectedItemTextField.text = content
         }else if sender.selectedSegmentIndex == 2{
             iceHidden(change: true)
+            iceSlider.value = Float(iceValue)
+            iceLabelChange()
             var content = ""
             if sizeIndex != nil{
                 content = content + size[sizeIndex!]
@@ -678,7 +350,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 print("ice2-ice",content)
             }
             selectedItemTextField.text = content
-            
         }
     
         }
@@ -689,20 +360,17 @@ class ViewController: UIViewController, UITextFieldDelegate {
             sugarSegmentedControl.selectedSegmentIndex = 1
             sugarSlider.value = Float(sugarValue)
             sugarLabelchange()
-            print("A",sugarValue)
 
         }else if sugarValue < 0.75{
             sugarSegmentedControl.selectedSegmentIndex = 1
             sugarValue = sugarValue + 0.25
             sugarSlider.value = Float(sugarValue)
             sugarLabelchange()
-            print("B",sugarValue)
         }else{
             sugarSegmentedControl.selectedSegmentIndex = 1
             sugarValue = 1
             sugarSlider.value = Float(sugarValue)
             sugarLabelchange()
-            print("c",sugarValue)
             
         }
     }
@@ -786,10 +454,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     
 
-    
-    
-    
-    
     var confirmedContent = ""
     var num = 1
     @IBAction func confirmButtonPressed(_ sender: UIButton) {
@@ -803,11 +467,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             selectedItemTextField.text = ""
             memoTextField.text = ""
             num = num + 1
-            
 
-
-        
-    
         print("sugar: \(sugarValue),ice: \(iceValue)")
         
         
