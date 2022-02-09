@@ -11,27 +11,28 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var sizeSegmentedControl: UISegmentedControl!
     @IBOutlet weak var sugarSegmentedControl: UISegmentedControl!
-    
-    @IBOutlet weak var iceSegmentedControl: UISegmentedControl!
     @IBOutlet weak var sugarSlider: UISlider!
-    @IBOutlet weak var iceSlider: UISlider!
-    
     @IBOutlet weak var addSugarButton: UIButton!
     @IBOutlet weak var lessSugarButton: UIButton!
+    @IBOutlet weak var sugarView: UIView!
+    @IBOutlet weak var sugarLabel: UILabel!
+    
+    @IBOutlet weak var iceSegmentedControl: UISegmentedControl!
+    @IBOutlet weak var iceSlider: UISlider!
     @IBOutlet weak var addIceButton: UIButton!
     @IBOutlet weak var lessIceButton: UIButton!
     
-    @IBOutlet weak var sugarView: UIView!
-    @IBOutlet weak var sugarLabel: UILabel!
-    @IBOutlet weak var iceLabel: UILabel!
     @IBOutlet weak var iceView: UIView!
-    @IBOutlet weak var selectedItemTextField: UITextField!
+    @IBOutlet weak var iceLabel: UILabel!
     
     @IBOutlet weak var memoTextField: UITextField!
+    @IBOutlet weak var selectedItemTextField: UITextField!
+    
+    @IBOutlet weak var confirmButton: UIButton!
     @IBOutlet weak var contentLabel: UILabel!
  
     
-    @IBOutlet weak var confirmButton: UIButton!
+    
     
 
     var size = ["小杯・","中杯・","大杯・"]
@@ -51,20 +52,21 @@ class ViewController: UIViewController, UITextFieldDelegate {
     var iceValue = 0.5
     
     
-    
-    var icePrimaryColor = UIColor(red: 105/255, green: 152/255, blue: 171/255, alpha: 1)
-    var iceSecondaryColor = UIColor(red: 64/255, green: 104/255, blue: 130/255, alpha: 1)
-    var iceTertiaryColor = UIColor(red: 26/255, green: 55/255, blue: 77/255, alpha: 1)
-    var iceFourthColor = UIColor(red: 177/255, green: 208/255, blue: 224/255, alpha: 1)
-    var iceFifthColor = UIColor(red: 232/255, green: 240/255, blue: 242/255, alpha: 1)
+    //甜度相關元件屬性顏色
     var sugarPrimaryColor = UIColor(red: 134/255, green: 72/255, blue: 121/255, alpha: 1)
     var sugarSecondaryColor = UIColor(red: 90/255, green: 51/255, blue: 81/255, alpha: 1)
     var sugarTertiaryColor = UIColor(red: 70/255, green: 29/255, blue: 54/255, alpha: 1)
     var sugarFourthColor = UIColor(red: 233/255, green: 166/255, blue: 166/255, alpha: 1)
     var sugarFifthColor = UIColor(red: 255/255, green: 239/255, blue: 239/255, alpha: 1)
+    //冰快關元件屬性顏色
+    var icePrimaryColor = UIColor(red: 105/255, green: 152/255, blue: 171/255, alpha: 1)
+    var iceSecondaryColor = UIColor(red: 64/255, green: 104/255, blue: 130/255, alpha: 1)
+    var iceTertiaryColor = UIColor(red: 26/255, green: 55/255, blue: 77/255, alpha: 1)
+    var iceFourthColor = UIColor(red: 177/255, green: 208/255, blue: 224/255, alpha: 1)
+    var iceFifthColor = UIColor(red: 232/255, green: 240/255, blue: 242/255, alpha: 1)
     
     
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,43 +84,57 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
     }
     
+    // 點空白處收鍵盤
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
       self.view.endEditing(true)
     }
     
+    // 點return鍵收鍵盤
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder();
        return true
     }
     
+    
+    /*
+    【設定初始值】
+      甜度：微糖 0.25
+      冰塊：微冰 0.5
+      設定備註欄位的提示文字
+      清空已確認訂單資料（設為空字串）
+      清空Label顯示的已確認訂單 （設為空字串）
+      條列清單的數字重新回到1
+     */
     func updateAll(){
-        iceValue = 0.5
         sugarValue = 0.25
-        confirmedContent = ""
+        iceValue = 0.5
         memoTextField.placeholder = "備註：加料、是否要吸管"
         selectedItemTextField.placeholder = "可手動修改訂單內容"
+        confirmedContent = ""
         contentLabel.text = ""
         num = 1
         
     }
-
+    
+    //設定待確認
     func updateTextFieldBorder(){
         selectedItemTextField.layer.borderColor = UIColor(red: 236/255, green: 219/255, blue: 186/255, alpha: 1).cgColor
         selectedItemTextField.layer.borderWidth = 3
     }
-    
-    func updateIceViewSize(){
-        iceLabel.sizeToFit()
-        iceView.frame.size = iceLabel.frame.size
-  
-        
-    }
+
+    //讓甜度label大小與文字範圍等寬後，甜度view尺寸與label尺寸等寬
     func updateSugarViewSize(){
         sugarLabel.sizeToFit()
         sugarView.frame.size = sugarLabel.frame.size
-
     }
     
+    //讓冰塊label大小與文字範圍等寬後，冰塊view尺寸與label尺寸等寬
+    func updateIceViewSize(){
+        iceLabel.sizeToFit()
+        iceView.frame.size = iceLabel.frame.size
+    }
+    
+    //自訂一個func作為之後彈性隱藏甜度相關元件用
     func sugarHidden(change: Bool){
         sugarSlider.isHidden = change
         addSugarButton.isHidden = change
@@ -127,6 +143,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         sugarView.isHidden = change
     }
     
+    //自訂func作為之後彈性隱藏冰塊相關元件用
     func iceHidden(change: Bool){
         iceSlider.isHidden = change
         addIceButton.isHidden = change
@@ -135,12 +152,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
         iceView.isHidden = change
     }
     
-    func setIceSliderDetails(text: String, minTrackTintColor: UIColor ,thumbTintColor : UIColor){
-        iceLabel.text = text
-        iceSlider.minimumTrackTintColor = minTrackTintColor
-        iceSlider.thumbTintColor = thumbTintColor
-        updateIceViewSize()
-    }
+    /*
+     自訂func設定甜度slder的文字、滑軌最大最小值顏色、控制鈕顏色，
+     同時呼叫前面updateIceViewSize讓view尺寸隨label大小改變
+    */
     func setSugarSliderDetails(text: String, minTrackTintColor: UIColor ,thumbTintColor : UIColor){
         sugarLabel.text = text
         sugarSlider.minimumTrackTintColor = minTrackTintColor
@@ -148,36 +163,58 @@ class ViewController: UIViewController, UITextFieldDelegate {
         updateSugarViewSize()
     }
     
+    /*
+     自訂func設定冰塊slder的文字、滑軌最大最小值顏色、控制鈕顏色，
+     同時呼叫前面updateIceViewSize讓view尺寸隨label大小改變
+    */
+    func setIceSliderDetails(text: String, minTrackTintColor: UIColor ,thumbTintColor : UIColor){
+        iceLabel.text = text
+        iceSlider.minimumTrackTintColor = minTrackTintColor
+        iceSlider.thumbTintColor = thumbTintColor
+        updateIceViewSize()
+    }
+   
+    /*
+     自訂func控制使用者點選甜度冰塊相關屬性時，將待確認訂單記錄在contents裡。屬性分別是飲料的份量、甜度有無＆甜度細節、冰溫熱＆冰塊細節
+    */
+    
     func setIndex(){
         var content = ""
         if sizeIndex != nil{
             content = content + size[sizeIndex!]
+            print("sizeIndex",content)
         }
         if sugarIndex != nil{
             content += sugar[sugarIndex!]
+            print("sugarIndex",content)
         }
         if sDIndex != nil{
             if sugarSegmentedControl.selectedSegmentIndex != 0{
             content = content + sugarDetails[sDIndex!]
+                print("sugarDetailIndex",content)
             }
+            
         }
         if iceIndex != nil{
             content = content + ice[iceIndex!]
+            print("iceIndex",content)
         }
         if iDIndex != nil{
             if iceSegmentedControl.selectedSegmentIndex == 0{
             content = content + iceDetails[iDIndex!]
+                print("iceDetailIndex",content)
             }
         }
         selectedItemTextField.text = content
     }
     
     
+    
     /*
-     【自訂function區】
-     1. 讓甜度Label文字隨slider值切換
-     2. 讓冰塊Label文字隨slider值切換
-     */
+    slider按鈕只能點選出五個數值，label顯示對應的五種甜度
+    無糖(0)、微糖(0.25)、半糖(0.5)、少糖(0.75)、全糖(1),textField顯示對應內容
+    */
+    
     func sugarLabelchange(){
         if sugarSlider.value == 0{
             setSugarSliderDetails(text: " 無糖 ", minTrackTintColor: sugarFifthColor, thumbTintColor: sugarFifthColor)
@@ -228,12 +265,13 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     
-    
+    /*
+    slider按鈕只能點選出五個數值，label顯示對應的五種冰度
+    完全去冰(0)、去冰(0.2)、微冰(0.5)、少冰(0.8)、正常冰(1),textField顯示對應內容
+     */
     func iceLabelChange(){
         if iceSlider.value == 0{
-            iceLabel.text = " 完全去冰 "
-            iceSlider.thumbTintColor = iceFifthColor
-            updateIceViewSize()
+            setIceSliderDetails(text: " 完全去冰 ", minTrackTintColor: iceFifthColor, thumbTintColor: iceFifthColor)
             iDIndex = 0
             setIndex()
         }else if iceSlider.value == 0.2{
@@ -256,11 +294,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     
-    
-    
-    /*
-     1.
-     */
     @IBAction func sizeSegmentSelected(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0{
             sizeIndex = 0
@@ -354,6 +387,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
         }
     
+    //設定slider的value
     @IBAction func addSugar(_ sender: UIButton){
         if sugarValue == 0{
             sugarValue = sugarValue + 0.25
@@ -375,7 +409,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-        
+    //設定slider的value
     @IBAction func lessSugar(_ sender: UIButton) {
         if sugarValue > 0{
             sugarSegmentedControl.selectedSegmentIndex = 1
