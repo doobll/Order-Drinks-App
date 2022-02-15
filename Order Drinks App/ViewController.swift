@@ -307,6 +307,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    
     @IBAction func sugarSegmentSelected(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0{
             sugarHidden(change: false)
@@ -387,7 +388,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
         }
     
-    //設定slider的value
+    //控制slider的value,按plus時數值可以0、0.25、0.5、0.75、1遞增
     @IBAction func addSugar(_ sender: UIButton){
         if sugarValue == 0{
             sugarValue = sugarValue + 0.25
@@ -409,7 +410,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    //設定slider的value
+    //控制slider的value,按plus時數值可以1、0.75、0.5、0.25、0 遞減
     @IBAction func lessSugar(_ sender: UIButton) {
         if sugarValue > 0{
             sugarSegmentedControl.selectedSegmentIndex = 1
@@ -430,6 +431,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
     }
     
+    //控制slider的value,按plus時數值可以0、0.2、0.5、0.8、1 遞增
     @IBAction func addIce(_ sender: UIButton) {
         if iceValue == 0 {
             iceValue = iceValue + 0.2
@@ -450,6 +452,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    //控制slider的value,按plus時數值可以1、0.8、0.5、0.2、0 遞減
     @IBAction func lessIce(_ sender: UIButton) {
         if iceValue == 1 {
             iceValue = iceValue - 0.2
@@ -472,7 +475,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     
-    
     //讓甜度和冰塊的值不能透過slider的thumb調整
     @IBAction func sliderValueChanged(_ sender: UISlider) {
         iceSlider.isEnabled = false
@@ -481,7 +483,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
 
     
- 
     @IBAction func reset(_ sender: Any) {
         updateAll()
     }
@@ -492,6 +493,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
     var num = 1
     @IBAction func confirmButtonPressed(_ sender: UIButton) {
             
+            contentLabel.textColor = UIColor.darkGray
+            contentLabel.font = UIFont.systemFont(ofSize: 14)
             confirmedContent.append("\(num). ")
             confirmedContent.append(selectedItemTextField.text!)
             confirmedContent.append("\t")
@@ -501,13 +504,15 @@ class ViewController: UIViewController, UITextFieldDelegate {
             selectedItemTextField.text = ""
             memoTextField.text = ""
             num = num + 1
-
+        print(confirmedContent)
         print("sugar: \(sugarValue),ice: \(iceValue)")
         
         
     }
     
-   
+    
+
+    
     
     
 
