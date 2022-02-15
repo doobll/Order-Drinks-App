@@ -125,12 +125,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
     //讓甜度label大小與文字範圍等寬後，甜度view尺寸與label尺寸等寬
     func updateSugarViewSize(){
         sugarLabel.sizeToFit()
+        sugarView.layer.cornerRadius = 3
         sugarView.frame.size = sugarLabel.frame.size
     }
     
     //讓冰塊label大小與文字範圍等寬後，冰塊view尺寸與label尺寸等寬
     func updateIceViewSize(){
         iceLabel.sizeToFit()
+        iceView.layer.cornerRadius = 3
         iceView.frame.size = iceLabel.frame.size
     }
     
